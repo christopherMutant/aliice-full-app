@@ -1,0 +1,32 @@
+.v-breadcrumbs-item--link {
+  color: rgb(var(--v-theme-lightText)) !important;
+}
+.v-breadcrumbs {
+  .v-breadcrumbs-item--disabled {
+    --v-disabled-opacity: 1;
+    .v-breadcrumbs-item--link {
+      color: rgb(var(--v-theme-darkText)) !important;
+    }
+  }
+  .v-breadcrumbs-divider {
+    color: rgb(var(--v-theme-lightText)) !important;
+  }
+}
+
+.breadcrumb-with-title {
+  .v-toolbar__content {
+    height: unset !important;
+    padding: 20px 0 !important;
+  }
+  .v-breadcrumbs__prepend {
+    svg {
+      vertical-align: -3px !important;
+    }
+  }
+}
+
+.breadcrumb-height {
+  .v-toolbar__content {
+    height: unset !important;
+  }
+}

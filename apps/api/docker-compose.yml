@@ -1,0 +1,45 @@
+# version: '3'
+services:
+  web:
+    container_name: aliice-rest-api
+    build: .
+    links:
+      - 'postgres:db-host'
+    ports:
+      - '3000:3000'
+  minio:
+    container_name: aliice-minio
+    image: minio/minio:latest
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${BUCKET_USER}
+      MINIO_ROOT_PASSWORD: ${BUCKET_PASSWORD}
+    ports:
+      - '9004:9004'
+      - '9005:9005'
+    volumes:
+      - ./storage/minio:/data
+    command: server --console-address 0.0.0.0:9005 --address 0.0.0.0:9004 /data
+  postgres:
+    image: postgres:latest
+    container_name: aliice-service-postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./storage/local/postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - ./storage/local/pgadmin:/var/lib/pgadmin
